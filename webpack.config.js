@@ -1,23 +1,17 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { merge } = require('webpack-merge')
 
-module.exports = {
-  mode: 'development',
+const commonConfig = require('./webpack/webpack.common')
+const developmentConfig = require('./webpack/webpack.dev')
+const productionConfig = require('./webpack/webpack.prod')
 
-  entry: {
-    app: path.resolve(__dirname, 'src'),
-  },
+module.exports = env => {
+  if (env.development) {
+    return merge(commonConfig, developmentConfig)
+  }
 
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
+  if (env.production) {
+    return merge(commonConfig, productionConfig)
+  }
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './src/index.html',
-    }),
-  ],
-
+  // throw new Error('No matching configuration was found!')
 }

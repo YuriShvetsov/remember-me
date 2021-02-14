@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  padding: 10px;
+}
+
+.title {
+  margin: 10px 0;
+  color: #4184ff;
+  font-size: 28px;
+}
+
+.paragraph {
+  color: #333;
+  font-size: 18px;
+}
