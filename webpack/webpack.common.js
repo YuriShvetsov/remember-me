@@ -2,6 +2,7 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin-webpack4')
+const mode = 
 
 module.exports = {
   entry: {
@@ -10,7 +11,21 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
+  },
+
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendors',
+          test: /node_modules/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
   },
 
   module: {

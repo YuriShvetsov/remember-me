@@ -1,0 +1,21 @@
+/* Button styles */
+
+button {
+  display: block;
+  min-width: 120px;
+  margin: 0 auto;
+  padding: 8px 12px;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: lighten(#00b871, 5%);
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 3px 5px #00b871;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+}
+
+button:hover {
+  background-color: lighten(#00b871, 3%);
+}

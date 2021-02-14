@@ -7,11 +7,7 @@ const productionConfig = require('./webpack/webpack.prod')
 module.exports = env => {
   if (env.development) {
     return merge(commonConfig, developmentConfig)
-  }
-
-  if (env.production) {
+  } else if (env.production) {
     return merge(commonConfig, productionConfig)
   }
-
-  // throw new Error('No matching configuration was found!')
 }
