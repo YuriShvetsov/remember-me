@@ -1,8 +1,8 @@
+const webpack = require('webpack')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin-webpack4')
-const mode = 
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
   entry: {
@@ -47,11 +47,21 @@ module.exports = {
     ],
   },
 
+  resolve: {
+    alias: {
+      vue: "vue/dist/vue.esm-bundler.js",
+    },
+  },
+
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src') + '/index.html',
+    }),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
     }),
     new VueLoaderPlugin(),
   ],
