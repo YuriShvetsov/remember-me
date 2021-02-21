@@ -5,9 +5,12 @@ const developmentConfig = require('./webpack/webpack.dev')
 const productionConfig = require('./webpack/webpack.prod')
 
 module.exports = env => {
-  if (env.development) {
-    return merge(commonConfig, developmentConfig)
-  } else if (env.production) {
-    return merge(commonConfig, productionConfig)
+  switch (env.NODE_ENV) {
+    case 'development':
+      return merge(commonConfig, developmentConfig)
+    case 'production':
+      return merge(commonConfig, productionConfig)
+    default:
+      throw new Error('This configuration is not available.')
   }
 }

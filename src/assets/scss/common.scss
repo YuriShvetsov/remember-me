@@ -1,0 +1,14 @@
+#app {
+  min-height: 100vh;
+  padding: 10px;
+  background-image: linear-gradient(to top, #56adfd, #1458d6);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.image_size_mid {
+  width: 360px;
+  height: 240px;
+}

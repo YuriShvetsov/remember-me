@@ -1,6 +1,10 @@
+/* Main */
 const path = require('path')
+
+/* Plugins */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+/* Production config */
 module.exports = {
   mode: 'production',
 
@@ -9,7 +13,12 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../../'
+            }
+          },
           {
             loader: 'css-loader',
             options: { sourceMap: true },
@@ -34,7 +43,12 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../../'
+            }
+          },
           {
             loader: 'css-loader',
             options: { sourceMap: true },
@@ -55,7 +69,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'assets/css/[name].[contenthash].css'
+      filename: 'assets/css/[name].[contenthash:8].css'
     }),
   ],
 }

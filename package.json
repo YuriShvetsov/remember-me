@@ -3,9 +3,9 @@
   "author": "Yuri Shvetsov",
   "private": true,
   "scripts": {
-    "start": "webpack serve --env development",
-    "build": "webpack --env production --progress",
-    "watch": "webpack --env production --watch --progress",
+    "start": "webpack serve --env NODE_ENV=development",
+    "build": "webpack --env NODE_ENV=production --progress",
+    "watch": "webpack --env NODE_ENV=production --watch --progress",
     "clean": "rm -rf ./dist"
   },
   "devDependencies": {
@@ -17,6 +17,8 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^5.0.2",
     "cssnano": "^4.1.10",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.1",
     "mini-css-extract-plugin": "^1.3.6",
     "node-sass": "^5.0.0",

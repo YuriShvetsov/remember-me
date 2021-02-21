@@ -1,17 +1,23 @@
-const webpack = require('webpack')
+/* Main */
 const path = require('path')
+const webpack = require('webpack')
+
+/* Plugins */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
+/* Common config */
 module.exports = {
+  context: path.resolve(__dirname, '../src'),
+
   entry: {
-    app: path.resolve(__dirname, '../src'),
+    app: './index.js',
   },
 
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[contenthash].js',
+    filename: '[name].[contenthash:8].js',
   },
 
   optimization: {
@@ -43,21 +49,34 @@ module.exports = {
       {
         test: /\.vue$/i,
         loader: 'vue-loader',
+      },
+      {
+        test: /\.(eot|otf|ttf|woff|woff2)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash:6].[ext]',
+          outputPath: 'assets/fonts'
+        }
+      },
+      {
+        test: /\.(jpe?g|png|svg|webp|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash:6].[ext]',
+          outputPath: 'assets/images'
+        }
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader'
       }
     ],
-  },
-
-  resolve: {
-    alias: {
-      vue: "vue/dist/vue.esm-bundler.js",
-    },
   },
 
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, '../src') + '/index.html',
+      template: './index.html',
     }),
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
@@ -65,4 +84,10 @@ module.exports = {
     }),
     new VueLoaderPlugin(),
   ],
+
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler.js',
+    },
+  },
 }

@@ -1,5 +1,7 @@
+/* Main */
 const path = require('path')
 
+/* Development config */
 module.exports = {
   mode: 'development',
 
@@ -9,6 +11,11 @@ module.exports = {
     contentBase: path.resolve(__dirname, '../dist'),
     clientLogLevel: 'silent',
     port: 9000,
+    historyApiFallback: true,
+    overlay: {
+      warnings: true,
+      errors: true,
+    },
   },
 
   module: {
