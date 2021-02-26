@@ -95,6 +95,7 @@ You can remove dist directory.
 ### Plugins
 
 - [`clean-webpack-plugin`](https://github.com/johnagan/clean-webpack-plugin) - Remove/clean build folders
+- [`copy-webpack-plugin`](https://github.com/webpack-contrib/copy-webpack-plugin) - Copies individual files or entire directories, which already exist, to the build directory
 - [`html-webpack-plugin`](https://github.com/jantimon/html-webpack-plugin) - Generate HTML files from template
 - [`mini-css-extract-plugin`](https://github.com/webpack-contrib/mini-css-extract-plugin) - Extract CSS into separate files
 

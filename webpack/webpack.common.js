@@ -4,6 +4,7 @@ const webpack = require('webpack')
 
 /* Plugins */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
@@ -54,7 +55,7 @@ module.exports = {
         test: /\.(eot|otf|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
-          name: '[name].[hash:6].[ext]',
+          name: '[name].[ext]',
           outputPath: 'assets/fonts'
         }
       },
@@ -62,7 +63,7 @@ module.exports = {
         test: /\.(jpe?g|png|svg|webp|gif)$/i,
         loader: 'file-loader',
         options: {
-          name: '[name].[hash:6].[ext]',
+          name: '[name].[ext]',
           outputPath: 'assets/images'
         }
       },
@@ -75,6 +76,14 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './assets/images',
+          to: '../dist/assets/images'
+        }
+      ]
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
