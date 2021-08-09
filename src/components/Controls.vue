@@ -30,7 +30,7 @@ export default {
 <style scoped>
 .controls {
   width: 100%;
-  margin: 0px 0;
+  padding-bottom: 35px;
   font-size: 14px;
 }
 
@@ -65,7 +65,7 @@ export default {
 .controls__start {
   display: block;
   width: 120px;
-  margin: 0px auto 0;
+  margin: 0 auto;
   padding: 6px 8px;
   color: #fff;
   background-color: #49cc84;
