@@ -1,8 +1,8 @@
-import { createApp } from 'vue';
-import App from './components/App.vue';
-import Component from './components/Component.vue';
+import { createApp } from 'vue'
+import store from './store'
+import App from './components/App.vue'
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.component('simple-component', Component);
-app.mount('#app');
+app.use(store)
+app.mount('#app')
