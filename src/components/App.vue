@@ -8,7 +8,7 @@
 
     <div class="game">
       <board></board>
-      <p class="level">Сложность: <strong>{{ diff }}</strong></p>
+      <info></info>
       <controls></controls>
     </div>
 
@@ -16,22 +16,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import Board from './Board.vue'
 import Controls from './Controls.vue'
+import Info from './Info.vue'
 
 export default {
   components: {
     Board,
-    Controls
+    Controls,
+    Info
   },
   data() {
     return {
 
     }
-  },
-  computed: {
-    ...mapGetters(['diff'])
   },
   methods: {
     ...mapActions(['init'])
@@ -44,6 +43,7 @@ export default {
 
 <style scoped>
 .container {
+  position: relative;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -67,12 +67,5 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.level {
-  margin: 10px 0;
-
-  font-size: 14px;
-  text-align: left;
 }
 </style>

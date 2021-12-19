@@ -1,6 +1,7 @@
 <template>
-
-  <div class="board">
+  <div class="board"
+    v-bind:class="classNames"
+  >
 
     <board-item v-for="field in fields" v-bind:options="field" v-bind:key="field.id"></board-item>
 
@@ -21,19 +22,31 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['fields']),
+    ...mapGetters(['fields', 'status']),
+    isProcess() {
+      return (this.status === 'process')
+    },
+    classNames() {
+      return {
+        'board_active': this.isProcess
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
 .board {
-  padding: 0 10px;
-
   display: grid;
   grid-template-rows: repeat(5, auto);
   grid-template-columns: repeat(5, auto);
   justify-content: center;
   grid-gap: 8px;
+
+  padding: 0 10px;
+}
+
+.board_active {
+  cursor: pointer;
 }
 </style>

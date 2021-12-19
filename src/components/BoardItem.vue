@@ -1,9 +1,6 @@
 <template>
   <div class="board-item"
-    v-bind:class="{
-      'board-item_active': isSuccess,
-      'board-item_error': isFail
-      }"
+    v-bind:class="classNames"
     v-on:click="onClick"
   ></div>
 </template>
@@ -26,6 +23,12 @@ export default {
     },
     isFail() {
       return this.options.value === 0 && this.options.isSelected
+    },
+    classNames() {
+      return {
+        'board-item_active': this.isSuccess,
+        'board-item_error': this.isFail
+      }
     }
   },
   methods: {

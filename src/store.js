@@ -1,6 +1,6 @@
 import { createStore, createLogger } from 'vuex'
 
-const DEFAULT_DIFFICULTY = 3
+const DEFAULT_DIFFICULTY = 1
 const MAX_DIFFICULTY = 10
 const GAME_SIZE = 5
 const GAME_SPEED = 2000
@@ -31,7 +31,9 @@ const store = createStore({
     status: 'before-init', // init, show, wait, process, win, fail
     fields: [],
     diff: DEFAULT_DIFFICULTY,
-    score: 0
+    score: 0,
+    curStrikes: 0,
+    maxStrikes: 0
   },
   getters: {
     status(state) {
@@ -42,6 +44,15 @@ const store = createStore({
     },
     diff(state) {
       return state.diff
+    },
+    score(state) {
+      return state.score
+    },
+    curStrikes(state) {
+      return state.curStrikes
+    },
+    maxStrikes(state) {
+      return state.maxStrikes
     }
   },
   mutations: {
@@ -81,6 +92,13 @@ const store = createStore({
     },
     RESET_SCORE(state) {
       state.score = 0
+    },
+
+    INC_CUR_STRIKES(state) {
+      state.curStrikes++
+    },
+    RESET_CUR_STRIKES(state) {
+      state.curStrikes = 0
     },
 
     SELECT_FIELD(state, id) {
@@ -129,6 +147,7 @@ const store = createStore({
         setTimeout(() => {
           commit('RESET_DIFF')
           commit('RESET_SCORE')
+          commit('RESET_CUR_STRIKES')
           commit('CLEAR_FIELDS')
           commit('SET_STATUS', 'init')
         }, GAME_SPEED)
@@ -138,14 +157,33 @@ const store = createStore({
       commit('INC_SCORE')
       commit('SELECT_FIELD', id)
 
-      if (state.score === state.diff) {
+      const allFieldsSelected = (state.score === state.diff)
+      const diffIsMax = (state.diff === MAX_DIFFICULTY)
+
+      if (allFieldsSelected && diffIsMax) {
+        commit('INC_CUR_STRIKES')
+        checkStrikes()
+        continueGame()
+      } else if (allFieldsSelected && !diffIsMax) {
+        continueGame()
+      }
+
+      // Helpers
+
+      function checkStrikes() {
+        if (state.curStrikes > state.maxStrikes) {
+          state.maxStrikes = state.curStrikes
+        }
+      }
+
+      function continueGame() {
         commit('SET_STATUS', 'win')
         setTimeout(() => {
           commit('SET_STATUS', 'wait')
-        }, GAME_SPEED / 2)
+        }, GAME_SPEED)
         setTimeout(() => {
           dispatch('goOnNextLevel')
-        }, GAME_SPEED)
+        }, GAME_SPEED * 1.5)
       }
     }
   },
