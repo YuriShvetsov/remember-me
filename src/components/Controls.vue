@@ -1,13 +1,7 @@
 <template>
   <div class="controls">
-
-    <div class="controls__msg-container">
-      <p v-if="status === 'win'" class="controls__msg-item controls__msg-item_next">Отлично! Так держать!</p>
-      <p v-if="status === 'fail'" class="controls__msg-item controls__msg-item_error">Не отчаивайтесь, у Вас всё получится!</p>
-    </div>
-
+    <div class="controls__msg" :class="msgClassNames" ref="msg">{{ msgTextContent }}</div>
     <button class="controls__start" v-on:click="start" :disabled="startIsDisabled">Старт</button>
-
   </div>
 </template>
 
@@ -15,10 +9,42 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  data() {
+    return {
+      msgTextContent: '',
+      msgClassNames: []
+    }
+  },
   computed: {
     ...mapGetters(['status']),
     startIsDisabled() {
-      return this.status !== 'init'
+      return (this.status !== 'init')
+    },
+    statusIsWin() {
+      return (this.status === 'win')
+    },
+    statusIsFail() {
+      return (this.status === 'fail')
+    }
+  },
+  watch: {
+    statusIsWin(isWin) {
+      if (isWin) {
+        this.msgTextContent = 'Отлично! Так держать!'
+        this.msgClassNames = ['controls__msg_visible', 'controls__msg_win']
+        return
+      }
+
+      this.msgClassNames = ['controls__msg_win']
+    },
+    statusIsFail(isFail) {
+      if (isFail) {
+        this.msgTextContent = 'Не отчаивайтесь, у Вас всё получится!'
+        this.msgClassNames = ['controls__msg_visible', 'controls__msg_fail']
+        return
+      }
+
+      this.msgClassNames = ['controls__msg_fail']
     }
   },
   methods: {
@@ -30,35 +56,27 @@ export default {
 <style scoped>
 .controls {
   width: 100%;
+  max-width: 280px;
   padding-bottom: 35px;
   font-size: 14px;
 }
 
-.controls__level {
-  text-align: center;
-}
-
-.controls__msg-container {
-  width: 100%;
+.controls__msg {
   height: 28px;
-  margin: 0px 0;
   text-align: center;
-  position: relative;
+  opacity: 0;
+  transition: opacity .15s ease;
 }
 
-.controls__msg-item {
-  width: 100%;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
+.controls__msg_visible {
+  opacity: 1;
 }
 
-.controls__msg-item_next {
+.controls__msg_win {
   color: #44c07c;
 }
 
-.controls__msg-item_error {
+.controls__msg_fail {
   color: #ee2525;
 }
 
@@ -71,6 +89,7 @@ export default {
   background-color: #49cc84;
   border: none;
   border-radius: 3px; 
+  transition: background-color .15s ease;
 }
 
 .controls__start:hover {
