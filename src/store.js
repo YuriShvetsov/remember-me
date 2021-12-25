@@ -145,6 +145,7 @@ const store = createStore({
         commit('SELECT_FIELD', id)
         commit('SET_STATUS', 'fail')
         setTimeout(() => {
+          checkStrikes()
           commit('RESET_DIFF')
           commit('RESET_SCORE')
           commit('RESET_CUR_STRIKES')
@@ -162,7 +163,6 @@ const store = createStore({
 
       if (allFieldsSelected && diffIsMax) {
         commit('INC_CUR_STRIKES')
-        checkStrikes()
         continueGame()
       } else if (allFieldsSelected && !diffIsMax) {
         continueGame()
