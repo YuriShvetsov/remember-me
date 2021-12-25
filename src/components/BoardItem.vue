@@ -42,23 +42,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../assets/scss/vars.scss';
+
 .board-item {
   width: 50px;
   height: 50px;
-  background-color: #cecece;
+  background-color: $colorGray;
   border-radius: 3px;
   transform-style: preserve-3d;
   transition: all 400ms ease;
 }
 
 .board-item_active {
-  background-color: #49cc84;
+  background-color: $colorGreen;
   transform: rotateX(180deg);
 }
 
 .board-item_error {
-  background-color: #ee7d7d;
+  background-color: $colorRed;
   transform: rotateX(180deg);
 }
 

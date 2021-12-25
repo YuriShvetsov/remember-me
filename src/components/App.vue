@@ -3,7 +3,7 @@
 
     <div class="header">
       <h1 class="header__title">Remember me</h1>
-      <p class="header__sub-title">Запомни и открой все зеленые клетки</p>
+      <p class="header__sub-title">Запомни и открой все <span class="green-text">зеленые клетки</span> </p>
     </div>
 
     <div class="game">
@@ -41,7 +41,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../assets/scss/vars.scss';
+
 .container {
   position: relative;
   font-family: 'Rubik', sans-serif;
@@ -54,13 +56,17 @@ export default {
 
 .header__title {
   margin: 5px;
-  font-size: 24px;
+  font-size: 2.6rem;
   font-weight: bold;
 }
 
 .header__sub-title {
-  font-size: 14px;
-  color: #44c07c;
+  font-size: 1.4rem;
+}
+
+.green-text {
+  font-weight: bold;
+  color: darken($colorGreen, 12%);
 }
 
 .game {

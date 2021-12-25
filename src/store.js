@@ -151,7 +151,7 @@ const store = createStore({
           commit('RESET_CUR_STRIKES')
           commit('CLEAR_FIELDS')
           commit('SET_STATUS', 'init')
-        }, GAME_SPEED)
+        }, GAME_SPEED * 2)
         return
       }
       
