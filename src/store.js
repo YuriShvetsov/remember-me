@@ -1,9 +1,9 @@
 import { createStore, createLogger } from 'vuex'
 
-const DEFAULT_DIFFICULTY = 1
-const MAX_DIFFICULTY = 10
-const GAME_SIZE = 5
+const GAME_SIZE = 6
 const GAME_SPEED = 2000
+const DEFAULT_LEVEL = 1
+const MAX_LEVEL = 10
 
 function genRandomNums(start, end, count) {
   function random() {
@@ -30,7 +30,7 @@ const store = createStore({
   state: {
     status: 'before-init', // init, show, wait, process, win, fail
     fields: [],
-    diff: DEFAULT_DIFFICULTY,
+    level: DEFAULT_LEVEL,
     score: 0,
     curStrikes: 0,
     maxStrikes: 0
@@ -42,8 +42,8 @@ const store = createStore({
     fields(state) {
       return state.fields
     },
-    diff(state) {
-      return state.diff
+    level(state) {
+      return state.level
     },
     score(state) {
       return state.score
@@ -53,6 +53,12 @@ const store = createStore({
     },
     maxStrikes(state) {
       return state.maxStrikes
+    },
+    maxLevel() {
+      return MAX_LEVEL
+    },
+    gameSize() {
+      return GAME_SIZE
     }
   },
   mutations: {
@@ -67,7 +73,7 @@ const store = createStore({
     },
     SET_FILLED_FIELDS(state) {
       const fieldsCount = GAME_SIZE ** 2
-      const randomNums = genRandomNums(0, fieldsCount - 1, state.diff)
+      const randomNums = genRandomNums(0, fieldsCount - 1, state.level)
 
       for (let i of randomNums) {
         state.fields[i].value = 1
@@ -80,11 +86,11 @@ const store = createStore({
       })
     },
 
-    INC_DIFF(state) {
-      state.diff++
+    INC_LEVEL(state) {
+      state.level++
     },
-    RESET_DIFF(state) {
-      state.diff = DEFAULT_DIFFICULTY
+    RESET_LEVEL(state) {
+      state.level = DEFAULT_LEVEL
     },
 
     INC_SCORE(state) {
@@ -118,7 +124,7 @@ const store = createStore({
     }
   },
   actions: {
-    init({ commit, dispatch }) {
+    init({ commit }) {
       commit('SET_EMPTY_FIELDS')
       commit('SET_STATUS', 'init')
     },
@@ -127,11 +133,11 @@ const store = createStore({
       commit('SET_STATUS', 'show')
       setTimeout(() => commit('SET_STATUS', 'process'), GAME_SPEED)
     },
-    goOnNextLevel({ state, commit, dispatch }) {
+    goToNextLevel({ state, commit, dispatch }) {
       commit('RESET_SCORE')
       commit('CLEAR_FIELDS')
-      if (state.diff < MAX_DIFFICULTY) {
-        commit('INC_DIFF')
+      if (state.level < MAX_LEVEL) {
+        commit('INC_LEVEL')
       }
       dispatch('start')
     },
@@ -146,7 +152,7 @@ const store = createStore({
         commit('SET_STATUS', 'fail')
         setTimeout(() => {
           checkStrikes()
-          commit('RESET_DIFF')
+          commit('RESET_LEVEL')
           commit('RESET_SCORE')
           commit('RESET_CUR_STRIKES')
           commit('CLEAR_FIELDS')
@@ -158,13 +164,13 @@ const store = createStore({
       commit('INC_SCORE')
       commit('SELECT_FIELD', id)
 
-      const allFieldsSelected = (state.score === state.diff)
-      const diffIsMax = (state.diff === MAX_DIFFICULTY)
+      const allFieldsSelected = (state.score === state.level)
+      const isMaxLevel = (state.level === MAX_LEVEL)
 
-      if (allFieldsSelected && diffIsMax) {
+      if (allFieldsSelected && isMaxLevel) {
         commit('INC_CUR_STRIKES')
         continueGame()
-      } else if (allFieldsSelected && !diffIsMax) {
+      } else if (allFieldsSelected && !isMaxLevel) {
         continueGame()
       }
 
@@ -180,10 +186,10 @@ const store = createStore({
         commit('SET_STATUS', 'win')
         setTimeout(() => {
           commit('SET_STATUS', 'wait')
-        }, GAME_SPEED)
+        }, GAME_SPEED * 2)
         setTimeout(() => {
-          dispatch('goOnNextLevel')
-        }, GAME_SPEED * 1.5)
+          dispatch('goToNextLevel')
+        }, GAME_SPEED * 2.5)
       }
     }
   },

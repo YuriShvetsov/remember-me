@@ -2,8 +2,7 @@
   <div class="container">
 
     <div class="header">
-      <h1 class="header__title">Remember me</h1>
-      <p class="header__sub-title">Запомни и открой все <span class="green-text">зеленые клетки</span> </p>
+      <h1 class="header__title">Remember <span class="green-text">me</span></h1>
     </div>
 
     <div class="game">
@@ -47,10 +46,11 @@ export default {
 .container {
   position: relative;
   font-family: 'Rubik', sans-serif;
+  text-align: center;
 }
 
 .header {
-  padding: 35px 0 35px;
+  padding: 24px 0;
   text-align: center;
 }
 
@@ -60,17 +60,13 @@ export default {
   font-weight: bold;
 }
 
-.header__sub-title {
-  font-size: 1.4rem;
-}
-
 .green-text {
   font-weight: bold;
   color: darken($colorGreen, 12%);
 }
 
 .game {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
 }

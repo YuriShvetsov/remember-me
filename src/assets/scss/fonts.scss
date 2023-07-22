@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Akaya Televigala";
-  src: url(../fonts/AkayaTelivigala-Regular.ttf) format("truetype");
+  src: url(@/assets/fonts/AkayaTelivigala-Regular.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -11,21 +11,21 @@
 
 @font-face {
   font-family: "Rubik";
-  src: url(../fonts/Rubik-Regular.ttf) format("truetype");
-  font-weight: normal;
+  src: url(@/assets/fonts/Rubik-Regular.ttf) format("truetype");
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Rubik";
-  src: url(../fonts/Rubik-Bold.ttf) format("truetype");
+  src: url(@/assets/fonts/Rubik-Bold.ttf) format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Rubik";
-  src: url(../fonts/Rubik-Italic.ttf) format("truetype");
+  src: url(@/assets/fonts/Rubik-Italic.ttf) format("truetype");
   font-weight: normal;
   font-style: italic;
 }

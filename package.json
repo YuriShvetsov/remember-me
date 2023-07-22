@@ -33,8 +33,10 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "node": "^15.8.0",
     "vue": "^3.0.5",
+    "vue3-lottie": "^3.0.0",
     "vuex": "^4.0.2"
   }
 }

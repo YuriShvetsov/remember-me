@@ -2,28 +2,51 @@
   <div class="board"
     v-bind:class="classNames"
   >
-    <message class="board__message"></message>
-    <board-item v-for="field in fields" v-bind:options="field" v-bind:key="field.id"></board-item>
+    <animation-wrapper class="board__animation-wrapper" />
+    <div class="board__wrapper">
+      <div
+        class="board__row"
+        v-for="(row, index) of rows"
+        :key="index"
+      >
+        <board-item
+          v-for="field of row"
+          :key="field.id"
+          :options="field"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import BoardItem from './BoardItem.vue'
-import Message from './Message.vue'
+import AnimationWrapper from './AnimationWrapper.vue'
 
 export default {
   components: {
     BoardItem,
-    Message
+    AnimationWrapper
   },
   data() {
-    return {
-
-    }
+    return {}
   },
   computed: {
-    ...mapGetters(['fields', 'status']),
+    ...mapGetters(['fields', 'status', 'gameSize']),
+    rows() {
+      const result = []
+
+      for (let i = 0; i < this.fields.length; i++) {
+        const currentRow = result[result.length - 1]
+        const field = this.fields[i]
+
+        if (i % this.gameSize === 0) result.push([field])
+        else currentRow.push(field)
+      }
+
+      return result
+    },
     isProcess() {
       return (this.status === 'process')
     },
@@ -36,24 +59,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .board {
-  display: grid;
-  grid-template-rows: repeat(5, auto);
-  grid-template-columns: repeat(5, auto);
-  justify-content: center;
-  grid-gap: 8px;
-
   padding: 0 10px;
-
   position: relative;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__row {
+    display: flex;
+    gap: 8px;
+  }
 }
 
 .board_active {
   cursor: pointer;
 }
 
-.board__message {
+.board__animation-wrapper {
   position: absolute;
   left: 50%;
   top: 50%;

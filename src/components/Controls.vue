@@ -1,6 +1,6 @@
 <template>
   <div class="controls">
-    <button class="controls__start" v-on:click="start" :disabled="startIsDisabled">Старт</button>
+    <button class="controls__start" v-on:click="start" :disabled="startIsDisabled">Start</button>
   </div>
 </template>
 
@@ -31,24 +31,25 @@ export default {
 .controls {
   width: 100%;
   max-width: 280px; 
-  padding: 16px 0;
+  padding: 12px 0;
   font-size: 1.4rem;
 }
 
 .controls__start {
   display: block;
-  width: 120px;
+  width: 180px;
   margin: 0 auto;
-  padding: 6px 8px;
+  padding: 8px 8px;
 
   font-family: 'Rubik', sans-serif;
   font-size: 1.4rem;
   font-weight: bold;
   color: #fff;
+  text-transform: uppercase;
 
   background-color: $colorGreen;
   border: none;
-  border-radius: 3px; 
+  border-radius: 6px; 
   transition: background-color .15s ease;
 }
 
