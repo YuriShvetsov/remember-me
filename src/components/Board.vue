@@ -9,11 +9,11 @@
         v-for="(row, index) of rows"
         :key="index"
       >
-        <board-item
-          v-for="field of row"
-          :key="field.id"
-          :options="field"
-        />
+          <board-item
+            v-for="field of row"
+            :key="field.id"
+            :options="field"
+          />
       </div>
     </div>
   </div>

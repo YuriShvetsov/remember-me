@@ -1,6 +1,9 @@
 import { createStore, createLogger } from 'vuex'
 
-const GAME_SIZE = 6
+const GAME_SIZE_BY_MODE = {
+  easy: 5,
+  hard: 6
+}
 const GAME_SPEED = 2000
 const DEFAULT_LEVEL = 1
 const MAX_LEVEL = 10
@@ -32,8 +35,15 @@ const store = createStore({
     fields: [],
     level: DEFAULT_LEVEL,
     score: 0,
-    curStrikes: 0,
-    maxStrikes: 0
+    curStrikes: {
+      easy: 0,
+      hard: 0
+    },
+    maxStrikes: {
+      easy: 0,
+      hard: 0
+    },
+    mode: 'easy'
   },
   getters: {
     status(state) {
@@ -49,30 +59,53 @@ const store = createStore({
       return state.score
     },
     curStrikes(state) {
-      return state.curStrikes
+      return state.curStrikes[state.mode]
     },
     maxStrikes(state) {
-      return state.maxStrikes
+      return state.maxStrikes[state.mode]
+    },
+    mode(state) {
+      return state.mode
     },
     maxLevel() {
       return MAX_LEVEL
     },
-    gameSize() {
-      return GAME_SIZE
+    gameSize(state) {
+      return GAME_SIZE_BY_MODE[state.mode]
     }
   },
   mutations: {
     SET_EMPTY_FIELDS(state) {
-      for (let i = 1; i <= GAME_SIZE ** 2; i++) {
-        state.fields.push({
-          id: i.toString(),
-          isSelected: false,
-          value: 0
-        })
+      const newSize = GAME_SIZE_BY_MODE[state.mode] ** 2
+      const oldSize = state.fields.length
+
+      if (!oldSize) {
+        for (let i = 1; i <= newSize; i++) {
+          state.fields.push({
+            id: i.toString(),
+            isSelected: false,
+            value: 0
+          })
+        }
+
+        return
+      }
+
+      if (newSize < oldSize) {
+        state.fields.splice(newSize, oldSize)
+      } else {
+        for (let i = oldSize + 1; i <= newSize; i++) {
+          state.fields.push({
+            id: i.toString(),
+            isSelected: false,
+            value: 0
+          })
+        }
       }
     },
     SET_FILLED_FIELDS(state) {
-      const fieldsCount = GAME_SIZE ** 2
+      const size = GAME_SIZE_BY_MODE[state.mode]
+      const fieldsCount = size ** 2
       const randomNums = genRandomNums(0, fieldsCount - 1, state.level)
 
       for (let i of randomNums) {
@@ -101,10 +134,10 @@ const store = createStore({
     },
 
     INC_CUR_STRIKES(state) {
-      state.curStrikes++
+      state.curStrikes[state.mode]++
     },
     RESET_CUR_STRIKES(state) {
-      state.curStrikes = 0
+      state.curStrikes[state.mode] = 0
     },
 
     SELECT_FIELD(state, id) {
@@ -121,6 +154,13 @@ const store = createStore({
       }
 
       state.status = value
+    },
+    TOGGLE_MODE(state) {
+      if (state.mode === 'easy') {
+        state.mode = 'hard'
+      } else {
+        state.mode = 'easy'
+      }
     }
   },
   actions: {
@@ -177,8 +217,8 @@ const store = createStore({
       // Helpers
 
       function checkStrikes() {
-        if (state.curStrikes > state.maxStrikes) {
-          state.maxStrikes = state.curStrikes
+        if (state.curStrikes[state.mode] > state.maxStrikes[state.mode]) {
+          state.maxStrikes[state.mode] = state.curStrikes[state.mode]
         }
       }
 
@@ -191,6 +231,10 @@ const store = createStore({
           dispatch('goToNextLevel')
         }, GAME_SPEED * 2.5)
       }
+    },
+    toggleMode({ commit, dispatch }) {
+      commit('TOGGLE_MODE')
+      dispatch('init')
     }
   },
   plugins: isDev ? [ createLogger() ] : []

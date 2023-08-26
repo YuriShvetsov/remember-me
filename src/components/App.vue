@@ -2,13 +2,13 @@
   <div class="container">
 
     <div class="header">
-      <h1 class="header__title">Remember <span class="green-text">me</span></h1>
+      <h1 class="header__title">Remember <span class="green-text">Me</span></h1>
     </div>
 
     <div class="game">
-      <board></board>
-      <info></info>
-      <controls></controls>
+      <board />
+      <info />
+      <controls />
     </div>
 
   </div>
@@ -25,11 +25,6 @@ export default {
     Board,
     Controls,
     Info
-  },
-  data() {
-    return {
-
-    }
   },
   methods: {
     ...mapActions(['init'])
